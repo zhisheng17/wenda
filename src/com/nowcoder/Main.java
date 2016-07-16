@@ -1,6 +1,9 @@
 package com.nowcoder;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main
 {
     public static void print(int index, Object object)
@@ -101,13 +104,24 @@ public class Main
         }
     }
 
+    public static void demoList()
+    {
+        List<String> strList = new ArrayList<String>(10);
+        for (int i = 0; i < 4; i++)
+        {
+            strList.add(String.valueOf(i));
+        }
+        print(1, strList);
+
+    }
+
     public static void main(String[] args)
     {
 //        print(1, "hello TZS!");
 //        demoOperation();
 //        demoString();
-        demoControlFlow();
-
+//        demoControlFlow();
+        demoList();
 
 
     }
