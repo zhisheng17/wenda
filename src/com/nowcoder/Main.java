@@ -48,14 +48,67 @@ public class Main
         print(13, str.replaceAll("hello", "hi"));
         print(14, str.replaceAll("h|l", "a"));
         print(15, str + str);
+
+        StringBuilder sb = new StringBuilder();  //线程不安全
+        sb.append("x ");
+        sb.append(1.2);
+        sb.append('a');
+        sb.append(true);
+        print(16, sb.toString());
     }
 
 
+    public static void demoControlFlow()
+    {
+        int a = 2;
+        int x = a==2 ? 1 : 2;
+        print(1, x);
+
+        if (a==2)
+            print(2, x=1);
+        else
+            print(3, x=2);
+
+        String Grade = "A";
+        switch (Grade)
+        {
+            case "A":
+                print(4, ">80");
+                break;
+            case "B":
+                print(5, "60~80");
+                break;
+            case "C":
+                print(6, "<60");
+                break;
+            default:
+                print(7, "你输入的分数有问题！");
+                break;
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (i%2==0)
+                continue;
+            print(8, i);
+        }
+
+        int y = 5;
+        while (y>0)
+        {
+            print(9, y);
+            y--;
+        }
+    }
 
     public static void main(String[] args)
     {
 //        print(1, "hello TZS!");
 //        demoOperation();
-        demoString();
+//        demoString();
+        demoControlFlow();
+
+
+
     }
 }
