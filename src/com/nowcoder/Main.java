@@ -1,6 +1,8 @@
 package com.nowcoder;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Main
@@ -226,6 +228,42 @@ public class Main
             }
     }
 
+    public static void demoOO()
+    {
+        Animal a = new Animal("TOM", 21);
+        a.say();
+        Human h = new Human("张三", 21, "中国");
+        h.say();
+    }
+
+    public static void demoFunction()
+    {
+        Random random = new Random();
+//        random.setSeed(1);        //随机种子
+        print(1, random.nextInt(1000));
+        print(2, random.nextFloat());
+
+        List<Integer> array = Arrays.asList(new Integer[]{1, 2, 3, 4, 5});
+        Collections.shuffle(array);
+        print(3, array);
+
+        Date date = new Date();
+        print(4, date);
+        print(5, date.getTime());
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        print(6, df.format(date));
+
+        print(7, UUID.randomUUID());
+
+        //数学类Math
+        print(8, Math.log(10));
+        print(9, Math.max(10, 78));
+        print(10, Math.min(7, 31));
+        print(11, Math.ceil(22.2));     //进位
+        print(12, Math.floor(22.2));    //不进位
+    }
+
     public static void main(String[] args)
     {
 //        print(1, "hello TZS!");
@@ -236,6 +274,8 @@ public class Main
 //        demoMapTable();
 //        demoSet();
 //        demoException();
+//        demoOO();
+        demoFunction();
 
     }
 }
