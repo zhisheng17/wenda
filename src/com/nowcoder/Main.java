@@ -172,6 +172,58 @@ public class Main
         {
             print(2, entry.getKey()+"|"+entry.getValue());
         }
+
+        print(3, map.values());
+        print(4, map.keySet());
+        print(5, map.get("3"));
+        print(6, map.containsKey("A"));
+        map.replace("3", "27");
+        print(7, map.get("3"));
+    }
+
+    public static void demoSet()
+    {
+        Set<String> strSet = new HashSet<String>();
+        for (int i=0; i<3; i++)
+        {
+            strSet.add(String.valueOf(i));
+            strSet.add(String.valueOf(i));
+            strSet.add(String.valueOf(i));
+        }
+        print(1, strSet);
+        strSet.remove(String.valueOf(2));
+        print(2, strSet);
+        print(3, strSet.contains(String.valueOf(2)));
+        print(4, strSet.isEmpty());
+        print(5, strSet.size());
+
+        strSet.addAll(Arrays.asList(new String[]{"A", "B", "C"}));
+        print(6, strSet );
+        for (String value : strSet)
+        {
+            print(7, value);
+        }
+    }
+
+    public static void demoException()
+    {
+            try
+            {
+                int k = 2;
+//                k = k / 0;
+                if (k==2)
+                {
+                    throw new Exception("我故意的");
+                }
+            }
+            catch (Exception e)
+            {
+                print(2, e.getMessage());
+            }
+            finally
+            {
+                print(3, "finally");
+            }
     }
 
     public static void main(String[] args)
@@ -181,8 +233,9 @@ public class Main
 //        demoString();
 //        demoControlFlow();
 //        demoList();
-        demoMapTable();
-
+//        demoMapTable();
+//        demoSet();
+//        demoException();
 
     }
 }
