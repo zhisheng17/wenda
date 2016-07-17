@@ -1,8 +1,7 @@
 package com.nowcoder;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Main
 {
@@ -109,10 +108,70 @@ public class Main
         List<String> strList = new ArrayList<String>(10);
         for (int i = 0; i < 4; i++)
         {
-            strList.add(String.valueOf(i));
+            strList.add(String.valueOf(i*i));
         }
         print(1, strList);
 
+        List<String> strListB = new ArrayList<String>(10);
+        for (int i = 0; i < 4; i++)
+        {
+            strListB.add(String.valueOf(i));
+        }
+
+        strList.addAll(strListB);
+        print(2, strList);
+        strList.remove(0);
+        print(3, strList);
+        strList.remove(String.valueOf(0));
+        print(4, strList);
+        print(5, strList.get(1));   //1的位置是4
+
+        Collections.reverse(strList);   //逆序
+        print(6, strList);
+
+        Collections.sort(strList);      //排序
+        print(7, strList);
+
+        Collections.sort(strList, new Comparator<String>()
+        {
+            @Override
+            public int compare(String o1, String o2)
+            {
+                return o2.compareTo(o1);        //从大到小排序
+            }
+        });
+        print(8, strList);
+
+
+        for (String obj : strList)      //遍历
+        {
+            print(9, obj);
+        }
+
+        for (int i=0; i<strList.size(); i++)      //遍历
+        {
+            print(10, strList.get(i));
+        }
+
+        int[] array = new int[]{1, 2, 3};
+        print(11, array[1]);
+    }
+
+    public static void demoMapTable()
+    {
+        Map<String, String> map = new HashMap<String, String>();
+        for (int i=0; i<4; i++)
+        {
+            map.put(String.valueOf(i), String.valueOf(i*i));
+
+        }
+
+        print(1, map);
+
+        for (Map.Entry<String, String> entry : map.entrySet())
+        {
+            print(2, entry.getKey()+"|"+entry.getValue());
+        }
     }
 
     public static void main(String[] args)
@@ -121,7 +180,8 @@ public class Main
 //        demoOperation();
 //        demoString();
 //        demoControlFlow();
-        demoList();
+//        demoList();
+        demoMapTable();
 
 
     }
