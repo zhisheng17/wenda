@@ -1,0 +1,54 @@
+<html>
+<body>
+<pre>
+    #*
+    注释，你看不到我
+    *#
+    $!{value1}
+    $!{value2}   ## 如果不存在，强制为空
+    ${value3}
+
+    colors:$!{colors}
+
+    #foreach ($color in $colors)
+        This is color $!{foreach.index}:$color $!{foreach.count}
+    #end
+
+    #foreach ($key in $map.keySet())
+        Number: $key  value: $map.get($key)
+    #end
+
+    #foreach ($ky in $map.entrySet())
+        Number: $ky.key  value: $ky.value
+    #end
+
+    User: $!{user.name},
+    $!{user.description},
+    $!{user.getDescription()}
+
+    #set($title = "NowCoder")
+    Title: $!{title}
+
+    Parse：#parse("header.html")
+    Include:#include("header.html")     ##不会解析，仅仅是包含
+
+    #macro(render_color, $index, $color)
+        Color Render Macro $index, $color
+    #end
+
+    #foreach ($color in $colors)
+        #render_color($foreach.index, $color)
+    #end
+
+    #set($hello = "hello")
+    #set($helloworld1 = "$!{hello}  world")
+    #set($helloworld2 = '$!{hello}  world')         ##不解析
+
+    $!hello
+    $helloworld1
+
+    $helloworld2
+
+</pre>
+</body>
+</html>
