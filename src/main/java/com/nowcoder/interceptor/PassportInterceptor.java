@@ -19,7 +19,7 @@ import java.util.Date;
  * Created by 10412 on 2016/7/26.
  */
 @Component
-public class PassortInterceptor implements HandlerInterceptor
+public class PassportInterceptor implements HandlerInterceptor
 {
     @Autowired
     LoginTicketDAO loginTicketDAO;
@@ -67,13 +67,16 @@ public class PassortInterceptor implements HandlerInterceptor
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception
     {
-
+        if (modelAndView != null)
+        {
+            modelAndView.addObject("user", hostHolder.getUser());
+        }
     }
 
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception
     {
-
+        hostHolder.clear();
     }
 }
