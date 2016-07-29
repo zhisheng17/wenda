@@ -8,15 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Created by 10412 on 2016/7/22.
+ * Created by 10412 on 2016/7/15.
  */
 @Service
 public class QuestionService {
     @Autowired
     QuestionDAO questionDAO;
 
-    public List<Question> getLatestQuestions(int userId, int offset, int limit)
-    {
+    public List<Question> getLatestQuestions(int userId, int offset, int limit) {
         return questionDAO.selectLatestQuestions(userId, offset, limit);
     }
 }

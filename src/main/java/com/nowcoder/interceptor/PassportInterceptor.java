@@ -16,67 +16,53 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
- * Created by 10412 on 2016/7/26.
+ * Created by 10412 on 2016/7/3.
  */
 @Component
-public class PassportInterceptor implements HandlerInterceptor
-{
-    @Autowired
-    LoginTicketDAO loginTicketDAO;
+public class PassportInterceptor implements HandlerInterceptor {
 
     @Autowired
-    UserDAO userDAO;
+    private LoginTicketDAO loginTicketDAO;
 
     @Autowired
-    HostHolder hostHolder;
+    private UserDAO userDAO;
 
+    @Autowired
+    private HostHolder hostHolder;
 
     @Override
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception
-    {
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String ticket = null;
-        if (httpServletRequest.getCookies() != null)
-        {
-            for (Cookie cookie : httpServletRequest.getCookies())
-            {
-                if (cookie.getName().equals("ticket"))
-                {
+        if (httpServletRequest.getCookies() != null) {
+            for (Cookie cookie : httpServletRequest.getCookies()) {
+                if (cookie.getName().equals("ticket")) {
                     ticket = cookie.getValue();
                     break;
                 }
             }
         }
 
-        if (ticket != null)
-        {
+        if (ticket != null) {
             LoginTicket loginTicket = loginTicketDAO.selectByTicket(ticket);
-            if (loginTicket == null || loginTicket.getExpired().before(new Date()) || loginTicket.getStatus() !=0)
-            {
+            if (loginTicket == null || loginTicket.getExpired().before(new Date()) || loginTicket.getStatus() != 0) {
                 return true;
             }
 
-
             User user = userDAO.selectById(loginTicket.getUserId());
-            hostHolder.setUsers(user);
-
+            hostHolder.setUser(user);
         }
         return true;
     }
 
-
     @Override
-    public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception
-    {
-        if (modelAndView != null)
-        {
+    public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+        if (modelAndView != null && hostHolder.getUser() != null) {
             modelAndView.addObject("user", hostHolder.getUser());
         }
     }
 
-
     @Override
-    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception
-    {
+    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
         hostHolder.clear();
     }
 }
