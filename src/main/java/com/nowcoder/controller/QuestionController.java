@@ -7,6 +7,7 @@ import com.nowcoder.util.WendaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,8 +18,12 @@ import java.util.Date;
 /**
  * Created by 10412 on 2016/8/1.
  */
+@Controller
 public class QuestionController
 {
+
+    private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
+
     @Autowired
     QuestionService questionService;
 
@@ -27,9 +32,6 @@ public class QuestionController
     HostHolder hostHolder;
 
 
-
-
-    private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
     @RequestMapping(value = "/question/add", method = {RequestMethod.POST})
     @ResponseBody
@@ -44,7 +46,9 @@ public class QuestionController
             question.setCommentCount(0);
             if (hostHolder.getUser() == null)
             {
-                question.setUserId(WendaUtil.ANONYMOUS_USERID);
+//                question.setUserId(WendaUtil.ANONYMOUS_USERID);
+                return WendaUtil.getJSONString(999);
+
             }
             else
             {
