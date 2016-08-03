@@ -16,6 +16,14 @@ public class QuestionService {
     @Autowired
     QuestionDAO questionDAO;
 
+    @Autowired
+    SensitiveService sensitiveService;
+
+    public Question selectById(int id)
+    {
+        return questionDAO.selectById(id);
+    }
+
     public int addQuestion(Question question)
     {
         //过滤html标签属性的特殊字符
@@ -24,6 +32,9 @@ public class QuestionService {
 
 
         //敏感词过滤
+        question.setContent(sensitiveService.filter(question.getContent()));
+        question.setTitle(sensitiveService.filter(question.getTitle()));
+
 
         return questionDAO.addQuestion(question) > 0 ? question.getId() : 0;
     }
