@@ -1,7 +1,7 @@
 package com.nowcoder.controller;
 
-import com.nowcoder.model.HostHolder;
-import com.nowcoder.model.Question;
+import com.nowcoder.model.*;
+import com.nowcoder.service.CommentService;
 import com.nowcoder.service.QuestionService;
 import com.nowcoder.service.UserService;
 import com.nowcoder.util.WendaUtil;
@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by 10412 on 2016/8/1.
@@ -34,7 +36,11 @@ public class QuestionController
     HostHolder hostHolder;
 
 
+    @Autowired
+    CommentService commentService;
 
+
+    //提问
     @RequestMapping(value = "/question/add", method = {RequestMethod.POST})
     @ResponseBody
     public String addQuestion(@RequestParam("title") String title, @RequestParam("content") String content)
@@ -72,13 +78,30 @@ public class QuestionController
     }
 
 
-
+    //问题详情
     @RequestMapping(value = "/question/{qid}")
-    public String questionDetail(Model model, @PathVariable("qid")int qid)
+    public String questionDetail(Model model, @PathVariable("qid") int qid)
     {
         Question question = questionService.selectById(qid);
         model.addAttribute("question", question);
         model.addAttribute("user", userService.getUser(question.getUserId()));
+
+
+        //评论
+        List<Comment> commentList = commentService.getCommentsByEntity(qid, EntityType.ENTITY_QUESTION);
+        List<ViewObject> comments = new ArrayList<ViewObject>();
+
+        for (Comment comment : commentList)
+        {
+            ViewObject vo = new ViewObject();
+            vo.set("comment", comment);
+            vo.set("user", userService.getUser(comment.getUserId()));
+            comments.add(vo);
+
+        }
+
+        model.addAttribute("comments", comments);
+
         return "detail";
     }
 
