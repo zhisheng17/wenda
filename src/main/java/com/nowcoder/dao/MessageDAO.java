@@ -33,4 +33,16 @@ public interface MessageDAO
     int getCommentCount(@Param("entityId") int entityId, @Param("entityType") int entityType);
 
 
+    //查询私信消息列表
+    @Select({"select ", INSERT_FIELDS, " , count(id) as id from ( select * from ", TABLE_NAME,
+            " where from_id=#{userId} or to_id=#{userId} order by created_date desc) tt group by conversation_id order by created_date desc limit #{offset}, #{limit}"})
+
+    List<Message> getConversationList(@Param("userId") int userId, @Param("offset") int offset, @Param("limit") int limit);
+
+
+
+    //查询私信消息未读数量
+    @Select({"select count(id) from ", TABLE_NAME, " where has_read=0 and to_id=#{userId} and conversation_id=#{conversationId}"})
+    int getConvesationUnreadCount(@Param("userId") int userId, @Param("conversationId") String conversationId);
+
 }

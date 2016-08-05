@@ -40,8 +40,31 @@ public class MessageController
 
 
     @RequestMapping(path = {"/msg/list"}, method = {RequestMethod.GET})
-    public String getConversationList()
+    public String getConversationList(Model model)
     {
+        if (hostHolder.getUser() == null)
+        {
+            return "redirect:/reglogin";        //如果用户未登录，则跳转登录
+        }
+
+        int localUserId = hostHolder.getUser().getId();
+
+        List<Message> conversationList = messageService.getConversationList(localUserId, 0, 10);
+        List<ViewObject> conversations = new ArrayList<ViewObject>();
+
+        for (Message message : conversationList)
+        {
+            ViewObject vo = new ViewObject();
+            vo.set("conversation", message);
+
+            int targetId = message.getFromId() == localUserId ? message.getToId() : message.getFromId();
+
+            vo.set("user", userService.getUser(targetId));
+            vo.set("unread", messageService.getConvesationUnreadCount(localUserId, message.getConversationId()));
+
+            conversations.add(vo);
+        }
+        model.addAttribute("conversations", conversations);
         return "letter";
     }
 
