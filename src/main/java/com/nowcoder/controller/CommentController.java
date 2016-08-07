@@ -35,7 +35,7 @@ public class CommentController
     QuestionService questionService;
 
 
-    @RequestMapping(value = "/addComment", method = {RequestMethod.POST})
+    @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})
     public String addComment(@RequestParam("questionId") int questionId, @RequestParam("content") String content)
     {
         try {
