@@ -35,7 +35,7 @@ public interface MessageDAO
 
     //查询私信消息列表
     @Select({"select ", INSERT_FIELDS, " , count(id) as id from ( select * from ", TABLE_NAME,
-            " where from_id=#{userId} or to_id=#{userId} order by created_date desc) tt group by conversation_id order by created_date desc limit #{offset}, #{limit}"})
+            " where from_id=#{userId} or to_id=#{userId} order by created_date desc) tt group by conversation_id desc order by created_date desc limit #{offset}, #{limit}"})
 
     List<Message> getConversationList(@Param("userId") int userId, @Param("offset") int offset, @Param("limit") int limit);
 
