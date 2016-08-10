@@ -18,6 +18,9 @@ public interface CommentDAO
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS, ") values (#{userId},#{content},#{createdDate},#{entityId},#{entityType},#{status})"})
     int addComment(Comment comment);
 
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{Id}"})
+    Comment getCOmmentById(int id);
+
 
     @Update({"update comment set status=#{status} where id=#{id}"})
     int updateStatus(@Param("id") int id,  @Param("status") int status);

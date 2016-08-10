@@ -114,8 +114,6 @@ public class MessageController
             {
                 return WendaUtil.getJSONString(999, "未登录");
             }
-
-
             User user = userService.selectByName(toName);
             if (user == null)
             {
@@ -123,7 +121,6 @@ public class MessageController
             }
 
             Message message = new Message();
-
             message.setCreatedDate(new Date());
             message.setContent(content);
             message.setFromId(hostHolder.getUser().getId());
@@ -132,19 +129,11 @@ public class MessageController
             messageService.addMessage(message);
 
             return WendaUtil.getJSONString(0);
-
-
-
-
-
         }catch (Exception e)
         {
             logger.error("增加站内信失败" + e.getMessage());
             return WendaUtil.getJSONString(1, "发送失败！");
         }
-
-
-//        return "redirect:/question/" + questionId;
     }
 
 
