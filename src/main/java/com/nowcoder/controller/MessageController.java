@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,6 +108,7 @@ public class MessageController
 
 
     @RequestMapping(path = {"/msg/addMessage"}, method = {RequestMethod.POST})
+    @ResponseBody
     public String addMessage(@RequestParam("toName") String toName, @RequestParam("content") String content)
     {
         try {
@@ -131,7 +133,7 @@ public class MessageController
             return WendaUtil.getJSONString(0);
         }catch (Exception e)
         {
-            logger.error("增加站内信失败" + e.getMessage());
+            logger.error("发送站内信失败" + e.getMessage());
             return WendaUtil.getJSONString(1, "发送失败！");
         }
     }
