@@ -19,7 +19,7 @@ public interface CommentDAO
     int addComment(Comment comment);
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{Id}"})
-    Comment getCOmmentById(int id);
+    Comment getCommentById(int id);
 
 
     @Update({"update comment set status=#{status} where id=#{id}"})
@@ -35,4 +35,8 @@ public interface CommentDAO
 
     int getCommentCount(@Param("entityId") int entityId, @Param("entityType") int entityType);
 
+
+    @Select({"select count(id) from ", TABLE_NAME, " where user_id=#{userId}"})
+
+    int getUserCommentCount(int userId);
 }
