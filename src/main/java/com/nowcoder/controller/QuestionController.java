@@ -1,10 +1,7 @@
 package com.nowcoder.controller;
 
 import com.nowcoder.model.*;
-import com.nowcoder.service.CommentService;
-import com.nowcoder.service.LikeService;
-import com.nowcoder.service.QuestionService;
-import com.nowcoder.service.UserService;
+import com.nowcoder.service.*;
 import com.nowcoder.util.WendaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +33,9 @@ public class QuestionController
     @Autowired
     HostHolder hostHolder;
 
+    @Autowired
+    FollowService followService;
+
 
     @Autowired
     CommentService commentService;
@@ -58,8 +58,8 @@ public class QuestionController
             question.setCommentCount(0);
             if (hostHolder.getUser() == null)
             {
-//                question.setUserId(WendaUtil.ANONYMOUS_USERID);
-                return WendaUtil.getJSONString(999);
+                question.setUserId(WendaUtil.ANONYMOUS_USERID);
+//                return WendaUtil.getJSONString(999);
 
             }
             else
@@ -83,12 +83,12 @@ public class QuestionController
 
 
     //问题详情
-    @RequestMapping(value = "/question/{qid}")
+    @RequestMapping(value = "/question/{qid}", method = {RequestMethod.GET})
     public String questionDetail(Model model, @PathVariable("qid") int qid)
     {
-        Question question = questionService.selectById(qid);
+        Question question = questionService.getById(qid);
         model.addAttribute("question", question);
-        model.addAttribute("user", userService.getUser(question.getUserId()));
+       // model.addAttribute("user", userService.getUser(question.getUserId()));
 
 
         //评论
@@ -110,15 +110,39 @@ public class QuestionController
             }
 
             vo.set("likeCount", likeService.getLikeCount(EntityType.ENTITY_COMMENT, comment.getId()));
-
-
-
             vo.set("user", userService.getUser(comment.getUserId()));
             comments.add(vo);
 
         }
 
         model.addAttribute("comments", comments);
+
+        List<ViewObject> followUsers = new ArrayList<ViewObject>();
+        // 获取关注的用户信息
+        List<Integer> users = followService.getFollowers(EntityType.ENTITY_QUESTION, qid, 20);
+        for (Integer userId : users)
+        {
+            ViewObject vo = new ViewObject();
+            User u = userService.getUser(userId);
+            if (u == null)
+            {
+                continue;
+            }
+            vo.set("name", u.getName());
+            vo.set("headUrl", u.getHeadUrl());
+            vo.set("id", u.getId());
+            followUsers.add(vo);
+        }
+
+        model.addAttribute("followUsers", followUsers);
+        if (hostHolder.getUser() != null)
+        {
+            model.addAttribute("followed", followService.isFollower(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, qid));
+        }
+        else
+        {
+            model.addAttribute("followed", false);
+        }
 
         return "detail";
     }
