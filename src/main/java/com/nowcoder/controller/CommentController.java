@@ -1,5 +1,8 @@
 package com.nowcoder.controller;
 
+import com.nowcoder.async.EventModel;
+import com.nowcoder.async.EventProducer;
+import com.nowcoder.async.EventType;
 import com.nowcoder.model.Comment;
 import com.nowcoder.model.EntityType;
 import com.nowcoder.model.HostHolder;
@@ -34,6 +37,9 @@ public class CommentController
     @Autowired
     QuestionService questionService;
 
+    @Autowired
+    EventProducer eventProducer;
+
 
     @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})
     public String addComment(@RequestParam("questionId") int questionId, @RequestParam("content") String content)
@@ -61,16 +67,15 @@ public class CommentController
             int count = commentService.getCommentCount(comment.getEntityId(), comment.getEntityType());
             questionService.updateCommentCount(comment.getEntityId(), count);
 
+
+            //如果评论了问题，发出一个评论事件
+          eventProducer.fireEvent(new EventModel(EventType.COMMENT).setActorId(comment.getUserId())
+                    .setEntityId(questionId));
+
         }catch (Exception e)
         {
             logger.error("增加评论失败" + e.getMessage());
         }
-
-
         return "redirect:/question/" + questionId;
     }
-
-
-
-
 }
