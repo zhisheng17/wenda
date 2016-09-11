@@ -20,43 +20,53 @@ public class Feed
     private JSONObject dataJSON = null;
 
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public int getType() {
+    public int getType()
+    {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(int type)
+    {
         this.type = type;
     }
 
-    public int getUserId() {
+    public int getUserId()
+    {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(int userId)
+    {
         this.userId = userId;
     }
 
-    public Date getCreatedDate() {
+    public Date getCreatedDate()
+    {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(Date createdDate)
+    {
         this.createdDate = createdDate;
     }
 
-    public String getData() {
+    public String getData()
+    {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(String data)
+    {
         this.data = data;
         dataJSON = JSONObject.parseObject(data);
     }

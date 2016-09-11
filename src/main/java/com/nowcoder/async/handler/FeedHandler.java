@@ -98,6 +98,7 @@ public class FeedHandler implements EventHandler
 
         // 获得所有粉丝
         List<Integer> followers = followService.getFollowers(EntityType.ENTITY_USER, model.getActorId(), Integer.MAX_VALUE);
+
         // 系统队列
         followers.add(0);
         // 给所有粉丝推事件

@@ -35,8 +35,4 @@ public class FeedService
     {
         return feedDAO.getFeedById(id);
     }
-
-
-
-
 }

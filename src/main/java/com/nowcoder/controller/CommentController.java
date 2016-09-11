@@ -76,6 +76,7 @@ public class CommentController
         {
             logger.error("增加评论失败" + e.getMessage());
         }
+
         return "redirect:/question/" + questionId;
     }
 }
