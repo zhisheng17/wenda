@@ -30,8 +30,8 @@ public class JedisAdapter implements InitializingBean
         System.out.println(String.format("%d, %s", index, obj.toString()));
     }
 
-
-    public static void main(String[] args)
+    //最后打包需要去除多余的main函数
+    public static void mainx(String[] args)
     {
         Jedis jedis = new Jedis("redis://localhost:6379/9");
         jedis.flushDB();
