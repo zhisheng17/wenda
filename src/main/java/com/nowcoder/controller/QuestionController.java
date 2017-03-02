@@ -19,6 +19,7 @@ import java.util.List;
 
 /**
  * Created by 10412 on 2016/8/1.
+ * 问题模块
  */
 @Controller
 public class QuestionController
@@ -50,7 +51,12 @@ public class QuestionController
     EventProducer eventProducer;
 
 
-    //提问
+    /**
+     * 提问题
+     * @param title  问题title
+     * @param content  问题描述内容
+     * @return
+     */
     @RequestMapping(value = "/question/add", method = {RequestMethod.POST})
     @ResponseBody
     public String addQuestion(@RequestParam("title") String title, @RequestParam("content") String content)
@@ -89,7 +95,12 @@ public class QuestionController
     }
 
 
-    //问题详情
+    /**
+     * 问题详情
+     * @param model
+     * @param qid
+     * @return 返回问题详情页面
+     */
     @RequestMapping(value = "/question/{qid}", method = {RequestMethod.GET})
     public String questionDetail(Model model, @PathVariable("qid") int qid)
     {

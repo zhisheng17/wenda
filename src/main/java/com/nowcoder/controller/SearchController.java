@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * Created by 10412 on 2016/11/27.
+ * 搜索模块（solr）
  */
 @Controller
 public class SearchController
@@ -38,6 +39,14 @@ public class SearchController
     @Autowired
     QuestionService questionService;
 
+    /**
+     * 搜索
+     * @param model
+     * @param keyword 搜索关键词
+     * @param offset
+     * @param count 数量
+     * @return 搜索结果页面
+     */
     @RequestMapping(path = {"/search"}, method = {RequestMethod.GET})
     public String search(Model model, @RequestParam("q") String keyword,
                          @RequestParam(value = "offset", defaultValue = "0") int offset,

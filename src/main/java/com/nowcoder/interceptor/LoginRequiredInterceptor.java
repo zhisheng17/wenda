@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by 10412 on 2016/7/3.
+ * 注册登录拦截器
  */
 @Component
 public class LoginRequiredInterceptor implements HandlerInterceptor {

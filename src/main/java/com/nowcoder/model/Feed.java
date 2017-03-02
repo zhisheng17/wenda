@@ -6,19 +6,28 @@ import java.util.Date;
 
 /**
  * Created by 10412 on 2016/9/10.
+ * feed 流
  */
 public class Feed
 {
+    /**
+     * type  feed 类型
+     * userId  用户id
+     * createdDate feed流创建时间
+     */
     private int id;
     private int type;
     private int userId;
     private Date createdDate;
 
-    //JSON
+    //JSON解析包 这里用的是阿里巴巴的 fastjson
+    //功能强大，完全支持Java Bean、集合、Map、日期、Enum，支持范型，支持自省；无依赖，速度最快
+    //源码地址：https://github.com/alibaba/fastjson
     private String data;
 
     private JSONObject dataJSON = null;
 
+    //get and set function
 
     public int getId()
     {

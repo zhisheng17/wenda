@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by 10412 on 2016/8/4.
+ * 点赞模块
  */
 @Controller
 public class LikeController

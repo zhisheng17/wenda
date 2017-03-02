@@ -4,12 +4,19 @@ import java.util.Date;
 
 /**
  * Created by 10412 on 2016/7/3.
+ * LoginTicket
  */
 public class LoginTicket {
+    /**
+     * userId 用户id
+     * expired 过期时间
+     * status  状态：0有效，1无效
+     * ticket
+     */
     private int id;
     private int userId;
     private Date expired;
-    private int status;// 0有效，1无效
+    private int status;
     private String ticket;
 
     public String getTicket() {

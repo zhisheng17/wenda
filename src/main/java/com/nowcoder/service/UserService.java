@@ -15,6 +15,7 @@ import java.util.*;
 
 /**
  * Created by 10412 on 2016/7/2.
+ * 用户模块
  */
 @Service
 public class UserService {
@@ -25,11 +26,22 @@ public class UserService {
     @Autowired
     private LoginTicketDAO loginTicketDAO;
 
+    /**
+     * 根据用户名查询用户
+     * @param name
+     * @return
+     */
     public User selectByName(String name)
     {
         return userDAO.selectByName(name);
     }
 
+    /**
+     * 用户注册
+     * @param username
+     * @param password
+     * @return
+     */
     public Map<String, Object> register(String username, String password) {
         Map<String, Object> map = new HashMap<String, Object>();
         if (StringUtils.isBlank(username)) {
@@ -49,12 +61,13 @@ public class UserService {
             return map;
         }
 
-        // 密码强度
+
         user = new User();
         user.setName(username);
         user.setSalt(UUID.randomUUID().toString().substring(0, 5));
         String head = String.format("http://images.nowcoder.com/head/%dt.png", new Random().nextInt(1000));
         user.setHeadUrl(head);
+        // 密码强度（md5+salt）
         user.setPassword(WendaUtil.MD5(password+user.getSalt()));
         userDAO.addUser(user);
 
@@ -64,7 +77,12 @@ public class UserService {
         return map;
     }
 
-
+    /**
+     * 用户登录
+     * @param username
+     * @param password
+     * @return
+     */
     public Map<String, Object> login(String username, String password) {
         Map<String, Object> map = new HashMap<String, Object>();
         if (StringUtils.isBlank(username)) {
@@ -95,6 +113,11 @@ public class UserService {
         return map;
     }
 
+    /**
+     * 设置登录Ticket
+     * @param userId
+     * @return
+     */
     private String addLoginTicket(int userId) {
         LoginTicket ticket = new LoginTicket();
         ticket.setUserId(userId);
@@ -107,10 +130,19 @@ public class UserService {
         return ticket.getTicket();
     }
 
+    /**
+     * 根据id查询用户
+     * @param id
+     * @return
+     */
     public User getUser(int id) {
         return userDAO.selectById(id);
     }
 
+    /**
+     * 注销（更新ticket）
+     * @param ticket
+     */
     public void logout(String ticket) {
         loginTicketDAO.updateStatus(ticket, 1);
     }

@@ -14,6 +14,7 @@ import java.util.Set;
 
 /**
  * Created by 10412 on 2016/8/13.
+ * 关注模块
  */
 @Service
 public class FollowService

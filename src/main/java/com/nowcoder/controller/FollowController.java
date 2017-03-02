@@ -23,6 +23,7 @@ import java.util.Map;
 
 /**
  * Created by 10412 on 2016/8/4.
+ * 关注模块
  */
 @Controller
 public class FollowController
@@ -48,6 +49,11 @@ public class FollowController
     FollowService followService;
 
 
+    /**
+     * 关注用户
+     * @param userId 用户id
+     * @return
+     */
     @RequestMapping(path = {"/followUser"}, method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
     public String followUser(@RequestParam("userId") int userId)
@@ -68,6 +74,11 @@ public class FollowController
     }
 
 
+    /**
+     * 取消关注用户
+     * @param userId 用户id
+     * @return
+     */
     @RequestMapping(path = {"/unfollowUser"}, method = {RequestMethod.POST})
     @ResponseBody
     public String unfollowUser(@RequestParam("userId") int userId)
@@ -88,7 +99,11 @@ public class FollowController
     }
 
 
-
+    /**
+     * 关注问题
+     * @param questionId 问题id
+     * @return
+     */
     @RequestMapping(path = {"/followQuestion"}, method = {RequestMethod.POST})
     @ResponseBody
     public String followQuestion(@RequestParam("questionId") int questionId)
@@ -122,7 +137,11 @@ public class FollowController
     }
 
 
-
+    /**
+     * 取消关注问题
+     * @param questionId 问题id
+     * @return
+     */
     @RequestMapping(path = {"/unfollowQuestion"}, method = {RequestMethod.POST})
     @ResponseBody
     public String unfollowQuestion(@RequestParam("questionId") int questionId)
@@ -155,7 +174,12 @@ public class FollowController
 
     }
 
-
+    /**
+     * 被关注列表
+     * @param model
+     * @param userId
+     * @return
+     */
     @RequestMapping(path = {"/user/{uid}/followers"}, method = {RequestMethod.GET})
     public String followers(Model model, @PathVariable("uid") int userId)
     {
@@ -176,7 +200,12 @@ public class FollowController
     }
 
 
-
+    /**
+     * 关注列表
+     * @param model
+     * @param userId
+     * @return
+     */
     @RequestMapping(path = {"/user/{uid}/followees"}, method = {RequestMethod.GET})
     public String followees(Model model, @PathVariable("uid") int userId)
     {

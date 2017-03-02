@@ -21,6 +21,7 @@ import java.util.Date;
 
 /**
  * Created by 10412 on 2016/8/4.
+ * 评论模块
  */
 @Controller
 public class CommentController
@@ -41,6 +42,12 @@ public class CommentController
     EventProducer eventProducer;
 
 
+    /**
+     * 增加评论
+     * @param questionId 问题id
+     * @param content   评论内容
+     * @return 问题详情
+     */
     @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})
     public String addComment(@RequestParam("questionId") int questionId, @RequestParam("content") String content)
     {
@@ -48,6 +55,7 @@ public class CommentController
             Comment comment = new Comment();
             comment.setContent(content);
 
+            //判断用户是否登录
             if (hostHolder.getUser() != null)
             {
                 comment.setUserId(hostHolder.getUser().getId());
@@ -69,8 +77,7 @@ public class CommentController
 
 
             //如果评论了问题，发出一个评论事件
-          eventProducer.fireEvent(new EventModel(EventType.COMMENT).setActorId(comment.getUserId())
-                    .setEntityId(questionId));
+          eventProducer.fireEvent(new EventModel(EventType.COMMENT).setActorId(comment.getUserId()).setEntityId(questionId));
 
         }catch (Exception e)
         {

@@ -4,9 +4,18 @@ import java.util.Date;
 
 /**
  * Created by 10412 on 2016/8/4.
+ * 私信模块
  */
 public class Message
 {
+    /**
+     * fromId  私信发送者
+     * toId  私信接收者
+     * content  私信内容
+     * createdDate  发送日期
+     * hasRead  是否阅读（状态）
+     * conversationId 私信id = 发送者_接收者（接收者_发送者）
+     */
     private int id;
     private int fromId;
     private int toId;
@@ -63,6 +72,7 @@ public class Message
         this.hasRead = hasRead;
     }
 
+    //私信id = 发送者_接收者（接收者_发送者） 谁小谁排在前面
     public String getConversationId() {
         if (fromId < toId)
         {

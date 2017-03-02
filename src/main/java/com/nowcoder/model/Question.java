@@ -4,14 +4,25 @@ import java.util.Date;
 
 /**
  * Created by 10412 on 2016/7/15.
+ * 问题模块
  */
 public class Question {
+    /**
+     * id 问题id
+     * title 问题题目
+     * content 问题内容
+     * createdDate 提问时间
+     * userId 用户id
+     * commentCount 评论数量
+     */
     private int id;
     private String title;
     private String content;
     private Date createdDate;
     private int userId;
     private int commentCount;
+
+    //get and set function
 
     public int getId() {
         return id;

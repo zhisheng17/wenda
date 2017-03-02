@@ -12,11 +12,17 @@ import java.util.Date;
 
 /**
  * Created by 10412 on 2016/7/10.
+ * 使用Spring AOP 的@AspectJ记录日志
  */
 @Aspect
 @Component
 public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
+
+    /**
+     * 在方法开始前纪录
+     * @param joinPoint
+     */
 
     @Before("execution(* com.nowcoder.controller.*Controller.*(..))")
     public void beforeMethod(JoinPoint joinPoint) {
@@ -28,6 +34,10 @@ public class LogAspect {
         }
         logger.info("before method:" + sb.toString());
     }
+
+    /**
+     * 在方法结束后纪录
+     */
 
     @After("execution(* com.nowcoder.controller.IndexController.*(..))")
     public void afterMethod() {

@@ -15,6 +15,7 @@ import java.util.Map;
 
 /**
  * Created by 10412 on 2016/8/3.
+ * 敏感词模块
  */
 @Service
 public class SensitiveService implements InitializingBean
@@ -22,6 +23,10 @@ public class SensitiveService implements InitializingBean
     private static final Logger logger = LoggerFactory.getLogger(SensitiveService.class);
 
 
+    /**
+     * 读取敏感词文件
+     * @throws Exception
+     */
     @Override
     public void afterPropertiesSet() throws Exception
     {

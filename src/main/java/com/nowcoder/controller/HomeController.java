@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * Created by 10412 on 2016/7/15.
+ * 首页
  */
 @Controller
 public class HomeController
@@ -41,7 +42,13 @@ public class HomeController
     @Autowired
     HostHolder hostHolder;
 
-
+    /**
+     * 首页问题列表
+     * @param userId
+     * @param offset
+     * @param limit
+     * @return
+     */
     private List<ViewObject> getQuestions(int userId, int offset, int limit)
     {
         List<Question> questionList = questionService.getLatestQuestions(userId, offset, limit);
@@ -50,6 +57,8 @@ public class HomeController
         {
             ViewObject vo = new ViewObject();
             vo.set("question", question);
+
+//            question.setContent(question.getContent().substring(0, 100));  //不让问题显示完，只显示问题内容的简介
             vo.set("followCount", followService.getFollowerCount(EntityType.ENTITY_QUESTION, question.getId()));
             vo.set("user", userService.getUser(question.getUserId()));
             vos.add(vo);
@@ -64,6 +73,12 @@ public class HomeController
         return "index";
     }
 
+    /**
+     * 个人信息详情页面
+     * @param model
+     * @param userId
+     * @return
+     */
     @RequestMapping(path = {"/user/{userId}"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String userIndex(Model model, @PathVariable("userId") int userId)
     {

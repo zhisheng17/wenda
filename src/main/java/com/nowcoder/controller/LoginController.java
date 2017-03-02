@@ -21,6 +21,7 @@ import java.util.Map;
 
 /**
  * Created by 10412 on 2016/7/2.
+ * 登录模块
  */
 
 @Controller
@@ -33,6 +34,16 @@ public class LoginController {
     @Autowired
     EventProducer eventProducer;
 
+    /**
+     * 注册
+     * @param model
+     * @param username 用户名
+     * @param password 面膜
+     * @param next
+     * @param rememberme 是否记住我
+     * @param response
+     * @return 登录界面
+     */
     @RequestMapping(path = {"/reg/"}, method = {RequestMethod.POST})
     public String reg(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
@@ -64,12 +75,28 @@ public class LoginController {
         }
     }
 
+    /**
+     * 重置
+     * @param model
+     * @param next
+     * @return 登录界面
+     */
     @RequestMapping(path = {"/reglogin"}, method = {RequestMethod.GET})
     public String regloginPage(Model model, @RequestParam(value = "next", required = false) String next) {
         model.addAttribute("next", next);
         return "login";
     }
 
+    /**
+     * 登录
+     * @param model
+     * @param username 用户名
+     * @param password 密码
+     * @param next
+     * @param rememberme 是否记住我
+     * @param response
+     * @return
+     */
     @RequestMapping(path = {"/login/"}, method = {RequestMethod.POST})
     public String login(Model model, @RequestParam("username") String username,
                         @RequestParam("password") String password,
@@ -78,6 +105,8 @@ public class LoginController {
                         HttpServletResponse response) {
         try {
             Map<String, Object> map = userService.login(username, password);
+
+            //设置 ticket
             if (map.containsKey("ticket")) {
                 Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
                 cookie.setPath("/");
@@ -86,6 +115,7 @@ public class LoginController {
                 }
                 response.addCookie(cookie);
 
+                //登录邮件检查异常
                 eventProducer.fireEvent(new EventModel(EventType.LOGIN)
                         .setExt("username", username).setExt("email", "173855325@qq.com")
                         .setActorId((int)map.get("userId")));
@@ -105,6 +135,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * 注销
+     * @param ticket
+     * @return 返回首页
+     */
     @RequestMapping(path = {"/logout"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String logout(@CookieValue("ticket") String ticket) {
         userService.logout(ticket);

@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * Created by 10412 on 2016/11/27.
+ * 搜索模块
  */
 @Service
 public class SearchService
@@ -29,7 +30,16 @@ public class SearchService
     private static final String QUESTION_CONTENT_FIELD = "question_content";
 
 
-    //查找问题函数（关键字，偏移量， 显示数量，高亮）
+    /**
+     * 搜索问题函数（关键字，， 显示数量，）
+     * @param keywords 关键字
+     * @param offset 偏移量
+     * @param count 显示数量
+     * @param hlPre 高亮起始
+     * @param hlPos 高亮结束
+     * @return  问题列表
+     * @throws Exception
+     */
     public List<Question> searchQuestion(String keywords, int offset, int count, String hlPre, String hlPos) throws Exception
     {
         List<Question> questionList = new ArrayList<>();
@@ -69,7 +79,14 @@ public class SearchService
         return questionList;
     }
 
-    //问题索引
+    /**
+     * 问题索引
+     * @param qid
+     * @param title
+     * @param content
+     * @return
+     * @throws Exception
+     */
     public boolean indexQuestion(int qid, String title, String content) throws Exception
     {
         SolrInputDocument doc =  new SolrInputDocument();

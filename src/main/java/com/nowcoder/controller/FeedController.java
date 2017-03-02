@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * Created by 10412 on 2016/9/11.
+ * 推拉模式
  */
 @Controller
 public class FeedController
@@ -38,6 +39,11 @@ public class FeedController
     @Autowired
     JedisAdapter jedisAdapter;
 
+    /**
+     * 给关注者推送动态
+     * @param model
+     * @return feeds页面
+     */
     @RequestMapping(path = {"/pushfeeds"}, method = {RequestMethod.GET, RequestMethod.POST})
     private String getPushFeeds(Model model)
     {
@@ -58,7 +64,11 @@ public class FeedController
     }
 
 
-
+    /**
+     * 拉取自己关注的人的动态
+     * @param model
+     * @return feeds页面
+     */
     @RequestMapping(path = {"/pullfeeds"}, method = {RequestMethod.GET, RequestMethod.POST})
     private String getPullFeeds(Model model)
     {

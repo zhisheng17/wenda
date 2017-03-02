@@ -18,6 +18,7 @@ import java.util.Properties;
 
 /**
  * Created by 10412 on 2016/8/10. // 1041218129@qq.com   wnppafhsbrcgbfbh（16位授权码）
+ * Java mail 邮件发送工具类
  */
 @Service
 public class MailSender implements InitializingBean {
@@ -30,12 +31,12 @@ public class MailSender implements InitializingBean {
     public boolean sendWithHTMLTemplate(String to, String subject, String template, Map<String, Object> model)
     {
         try {
-            String nick = MimeUtility.encodeText("牛客高级课");
+            String nick = MimeUtility.encodeText("你好");
             InternetAddress from = new InternetAddress(nick + "<1041218129@qq.com>");
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-            String result = VelocityEngineUtils
-                    .mergeTemplateIntoString(velocityEngine, template, "UTF-8", model);
+            String result = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, template, "UTF-8", model);
+
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setFrom(from);
             mimeMessageHelper.setSubject(subject);

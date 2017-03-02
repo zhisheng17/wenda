@@ -4,9 +4,18 @@ import java.util.Date;
 
 /**
  * Created by 10412 on 2016/8/4.
+ * 评论模块
  */
 public class Comment
 {
+    /**
+     * userId 用户id
+     * entityId 实体id
+     * entityType 实体类型
+     * content  评论内容
+     * createdDate 评论日期
+     * status 评论状态（1代表删除，0代表存在）
+     */
     private int id;
     private int userId;
     private int entityId;
@@ -14,6 +23,8 @@ public class Comment
     private String content;
     private Date createdDate;
     private int status;
+
+    //get and set function
 
     public int getId() {
         return id;

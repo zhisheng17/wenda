@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created by 10412 on 2016/8/4.
+ * 点赞点踩模块
  */
 @Service
 public class LikeService
@@ -14,6 +15,12 @@ public class LikeService
     @Autowired
     JedisAdapter jedisAdapter;
 
+    /**
+     * 根据实体id和实体类型获取点赞数量
+     * @param entityType
+     * @param entityId
+     * @return 点赞数量
+     */
     public long getLikeCount(int entityType, int entityId)
     {
         String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);
