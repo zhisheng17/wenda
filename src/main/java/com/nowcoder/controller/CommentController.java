@@ -24,8 +24,7 @@ import java.util.Date;
  * 评论模块
  */
 @Controller
-public class CommentController
-{
+public class CommentController {
     private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
 
     @Autowired
@@ -44,24 +43,21 @@ public class CommentController
 
     /**
      * 增加评论
+     *
      * @param questionId 问题id
-     * @param content   评论内容
+     * @param content    评论内容
      * @return 问题详情
      */
     @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})
-    public String addComment(@RequestParam("questionId") int questionId, @RequestParam("content") String content)
-    {
+    public String addComment(@RequestParam("questionId") int questionId, @RequestParam("content") String content) {
         try {
             Comment comment = new Comment();
             comment.setContent(content);
 
             //判断用户是否登录
-            if (hostHolder.getUser() != null)
-            {
+            if (hostHolder.getUser() != null) {
                 comment.setUserId(hostHolder.getUser().getId());
-            }
-            else
-            {
+            } else {
                 comment.setUserId(WendaUtil.ANONYMOUS_USERID);
                 //return "redirect:/reglogin";
             }
@@ -77,10 +73,9 @@ public class CommentController
 
 
             //如果评论了问题，发出一个评论事件
-          eventProducer.fireEvent(new EventModel(EventType.COMMENT).setActorId(comment.getUserId()).setEntityId(questionId));
+            eventProducer.fireEvent(new EventModel(EventType.COMMENT).setActorId(comment.getUserId()).setEntityId(questionId));
 
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             logger.error("增加评论失败" + e.getMessage());
         }
 

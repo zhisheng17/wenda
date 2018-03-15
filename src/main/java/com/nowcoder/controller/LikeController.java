@@ -23,8 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 点赞模块
  */
 @Controller
-public class LikeController
-{
+public class LikeController {
     private static final Logger logger = LoggerFactory.getLogger(LikeController.class);
 
     @Autowired
@@ -43,20 +42,18 @@ public class LikeController
 
     @RequestMapping(path = {"/like"}, method = {RequestMethod.POST})
     @ResponseBody
-    public String like(@RequestParam("commentId") int commentId)
-    {
-        if (hostHolder.getUser() == null)
-        {
+    public String like(@RequestParam("commentId") int commentId) {
+        if (hostHolder.getUser() == null) {
             return WendaUtil.getJSONString(999);
         }
 
         Comment comment = commentService.getCommentById(commentId);
 
         eventProducer.fireEvent(new EventModel(EventType.LIKE).setActorId(hostHolder.getUser().getId())
-                                                              .setEntityId(commentId)
-                                                              .setEntityType(EntityType.ENTITY_COMMENT)
-                                                              .setEntityOwnerId(comment.getUserId())
-                                                              .setExt("questionId", String.valueOf(comment.getEntityId())));
+                .setEntityId(commentId)
+                .setEntityType(EntityType.ENTITY_COMMENT)
+                .setEntityOwnerId(comment.getUserId())
+                .setExt("questionId", String.valueOf(comment.getEntityId())));
 
 
         long likeCount = likeService.like(hostHolder.getUser().getId(), EntityType.ENTITY_COMMENT, commentId);
@@ -67,10 +64,8 @@ public class LikeController
 
     @RequestMapping(path = {"/dislike"}, method = {RequestMethod.POST})
     @ResponseBody
-    public String dislike(@RequestParam("commentId") int commentId)
-    {
-        if (hostHolder.getUser() == null)
-        {
+    public String dislike(@RequestParam("commentId") int commentId) {
+        if (hostHolder.getUser() == null) {
             return WendaUtil.getJSONString(999);
         }
 

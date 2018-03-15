@@ -36,9 +36,10 @@ public class LoginController {
 
     /**
      * 注册
+     *
      * @param model
-     * @param username 用户名
-     * @param password 面膜
+     * @param username   用户名
+     * @param password   面膜
      * @param next
      * @param rememberme 是否记住我
      * @param response
@@ -48,7 +49,7 @@ public class LoginController {
     public String reg(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
                       @RequestParam("next") String next,
-                      @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
+                      @RequestParam(value = "rememberme", defaultValue = "false") boolean rememberme,
                       HttpServletResponse response) {
         try {
             Map<String, Object> map = userService.register(username, password);
@@ -56,7 +57,7 @@ public class LoginController {
                 Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
                 cookie.setPath("/");
                 if (rememberme) {
-                    cookie.setMaxAge(3600*24*5);
+                    cookie.setMaxAge(3600 * 24 * 5);
                 }
                 response.addCookie(cookie);
                 if (StringUtils.isNotBlank(next)) {
@@ -77,6 +78,7 @@ public class LoginController {
 
     /**
      * 重置
+     *
      * @param model
      * @param next
      * @return 登录界面
@@ -89,9 +91,10 @@ public class LoginController {
 
     /**
      * 登录
+     *
      * @param model
-     * @param username 用户名
-     * @param password 密码
+     * @param username   用户名
+     * @param password   密码
      * @param next
      * @param rememberme 是否记住我
      * @param response
@@ -100,8 +103,8 @@ public class LoginController {
     @RequestMapping(path = {"/login/"}, method = {RequestMethod.POST})
     public String login(Model model, @RequestParam("username") String username,
                         @RequestParam("password") String password,
-                        @RequestParam(value="next", required = false) String next,
-                        @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
+                        @RequestParam(value = "next", required = false) String next,
+                        @RequestParam(value = "rememberme", defaultValue = "false") boolean rememberme,
                         HttpServletResponse response) {
         try {
             Map<String, Object> map = userService.login(username, password);
@@ -111,14 +114,14 @@ public class LoginController {
                 Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
                 cookie.setPath("/");
                 if (rememberme) {
-                    cookie.setMaxAge(3600*24*5);
+                    cookie.setMaxAge(3600 * 24 * 5);
                 }
                 response.addCookie(cookie);
 
                 //登录邮件检查异常
                 eventProducer.fireEvent(new EventModel(EventType.LOGIN)
                         .setExt("username", username).setExt("email", "173855325@qq.com")
-                        .setActorId((int)map.get("userId")));
+                        .setActorId((int) map.get("userId")));
 
                 if (StringUtils.isNotBlank(next)) {
                     return "redirect:" + next;
@@ -137,6 +140,7 @@ public class LoginController {
 
     /**
      * 注销
+     *
      * @param ticket
      * @return 返回首页
      */

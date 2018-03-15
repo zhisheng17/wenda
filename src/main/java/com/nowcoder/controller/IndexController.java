@@ -60,8 +60,8 @@ public class IndexController {
     @RequestMapping(path = {"/request"}, method = {RequestMethod.GET})
     @ResponseBody
     public String request(Model model, HttpServletResponse response,
-                           HttpServletRequest request,
-                           HttpSession httpSession,
+                          HttpServletRequest request,
+                          HttpSession httpSession,
                           @CookieValue("JSESSIONID") String sessionId) {
         StringBuilder sb = new StringBuilder();
         sb.append("COOKIEVALUE:" + sessionId);
@@ -94,7 +94,7 @@ public class IndexController {
         if (code == 301) {
             red.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
         }
-        return  red;
+        return red;
     }
 
     @RequestMapping(path = {"/admin"}, method = {RequestMethod.GET})
@@ -103,7 +103,7 @@ public class IndexController {
         if ("admin".equals(key)) {
             return "hello admin";
         }
-        throw  new IllegalArgumentException("参数不对");
+        throw new IllegalArgumentException("参数不对");
     }
 
     @ExceptionHandler()

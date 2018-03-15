@@ -23,8 +23,7 @@ import java.util.List;
  * 首页
  */
 @Controller
-public class HomeController
-{
+public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
@@ -44,17 +43,16 @@ public class HomeController
 
     /**
      * 首页问题列表
+     *
      * @param userId
      * @param offset
      * @param limit
      * @return
      */
-    private List<ViewObject> getQuestions(int userId, int offset, int limit)
-    {
+    private List<ViewObject> getQuestions(int userId, int offset, int limit) {
         List<Question> questionList = questionService.getLatestQuestions(userId, offset, limit);
         List<ViewObject> vos = new ArrayList<>();
-        for (Question question : questionList)
-        {
+        for (Question question : questionList) {
             ViewObject vo = new ViewObject();
             vo.set("question", question);
 
@@ -75,13 +73,13 @@ public class HomeController
 
     /**
      * 个人信息详情页面
+     *
      * @param model
      * @param userId
      * @return
      */
     @RequestMapping(path = {"/user/{userId}"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String userIndex(Model model, @PathVariable("userId") int userId)
-    {
+    public String userIndex(Model model, @PathVariable("userId") int userId) {
         model.addAttribute("vos", getQuestions(userId, 0, 10));
 
         User user = userService.getUser(userId);
@@ -90,12 +88,9 @@ public class HomeController
         vo.set("commentCount", commentService.getUserCommentCount(userId));
         vo.set("followerCount", followService.getFollowerCount(EntityType.ENTITY_USER, userId));
         vo.set("followeeCount", followService.getFolloweeCount(userId, EntityType.ENTITY_USER));
-        if (hostHolder.getUser() != null)
-        {
+        if (hostHolder.getUser() != null) {
             vo.set("followed", followService.isFollower(hostHolder.getUser().getId(), EntityType.ENTITY_USER, userId));
-        }
-        else
-        {
+        } else {
             vo.set("followed", false);
         }
         model.addAttribute("profileUser", vo);

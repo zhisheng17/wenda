@@ -24,8 +24,7 @@ import java.util.List;
  * 搜索模块（solr）
  */
 @Controller
-public class SearchController
-{
+public class SearchController {
     private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
     @Autowired
     SearchService searchService;
@@ -41,30 +40,27 @@ public class SearchController
 
     /**
      * 搜索
+     *
      * @param model
      * @param keyword 搜索关键词
      * @param offset
-     * @param count 数量
+     * @param count   数量
      * @return 搜索结果页面
      */
     @RequestMapping(path = {"/search"}, method = {RequestMethod.GET})
     public String search(Model model, @RequestParam("q") String keyword,
                          @RequestParam(value = "offset", defaultValue = "0") int offset,
                          @RequestParam(value = "count", defaultValue = "10") int count) {
-        try
-        {
+        try {
             List<Question> questionList = searchService.searchQuestion(keyword, offset, count, "<em>", "</em>");
             List<ViewObject> vos = new ArrayList<>();
-            for (Question question : questionList)
-            {
+            for (Question question : questionList) {
                 Question q = questionService.getById(question.getId());
                 ViewObject vo = new ViewObject();
-                if (question.getContent() != null)
-                {
+                if (question.getContent() != null) {
                     q.setContent(question.getContent());
                 }
-                if (question.getTitle() != null)
-                {
+                if (question.getTitle() != null) {
                     q.setTitle(question.getTitle());
                 }
                 vo.set("question", q);

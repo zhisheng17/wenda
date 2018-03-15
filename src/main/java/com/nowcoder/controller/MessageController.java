@@ -25,8 +25,7 @@ import java.util.List;
  * Created by 10412 on 2016/8/4.
  */
 @Controller
-public class MessageController
-{
+public class MessageController {
     private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
     @Autowired
@@ -41,10 +40,8 @@ public class MessageController
 
 
     @RequestMapping(path = {"/msg/list"}, method = {RequestMethod.GET})
-    public String getConversationList(Model model)
-    {
-        if (hostHolder.getUser() == null)
-        {
+    public String getConversationList(Model model) {
+        if (hostHolder.getUser() == null) {
             return "redirect:/reglogin";        //如果用户未登录，则跳转登录
         }
 
@@ -53,8 +50,7 @@ public class MessageController
         List<Message> conversationList = messageService.getConversationList(localUserId, 0, 10);
         List<ViewObject> conversations = new ArrayList<ViewObject>();
 
-        for (Message message : conversationList)
-        {
+        for (Message message : conversationList) {
             ViewObject vo = new ViewObject();
             vo.set("conversation", message);
 
@@ -70,16 +66,12 @@ public class MessageController
     }
 
 
-
-
     @RequestMapping(path = {"/msg/detail"}, method = {RequestMethod.GET})
-    public String getConversationDetail(Model model, @RequestParam("conversationId") String conversationId)
-    {
+    public String getConversationDetail(Model model, @RequestParam("conversationId") String conversationId) {
         try {
             List<Message> messageList = messageService.getConversationDetail(conversationId, 0, 10);
             List<ViewObject> messages = new ArrayList<ViewObject>();
-            for (Message message : messageList)
-            {
+            for (Message message : messageList) {
                 ViewObject vo = new ViewObject();
                 vo.set("message", message);
 //                vo.set("user", userService.getUser(message.getFromId()));
@@ -95,9 +87,8 @@ public class MessageController
             }
             model.addAttribute("messages", messages);
 
-        }catch (Exception e)
-        {
-            logger.error("获取详情消息失败"+e.getMessage());
+        } catch (Exception e) {
+            logger.error("获取详情消息失败" + e.getMessage());
         }
 
 
@@ -105,20 +96,15 @@ public class MessageController
     }
 
 
-
-
     @RequestMapping(path = {"/msg/addMessage"}, method = {RequestMethod.POST})
     @ResponseBody
-    public String addMessage(@RequestParam("toName") String toName, @RequestParam("content") String content)
-    {
+    public String addMessage(@RequestParam("toName") String toName, @RequestParam("content") String content) {
         try {
-            if (hostHolder.getUser() == null)
-            {
+            if (hostHolder.getUser() == null) {
                 return WendaUtil.getJSONString(999, "未登录");
             }
             User user = userService.selectByName(toName);
-            if (user == null)
-            {
+            if (user == null) {
                 return WendaUtil.getJSONString(1, "用户不存在");
             }
 
@@ -131,14 +117,11 @@ public class MessageController
             messageService.addMessage(message);
 
             return WendaUtil.getJSONString(0);
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             logger.error("发送站内信失败" + e.getMessage());
             return WendaUtil.getJSONString(1, "发送失败！");
         }
     }
-
-
 
 
 }

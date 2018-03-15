@@ -23,8 +23,7 @@ import java.util.List;
  * 推拉模式
  */
 @Controller
-public class FeedController
-{
+public class FeedController {
     private static final Logger logger = LoggerFactory.getLogger(FeedController.class);
 
     @Autowired
@@ -41,21 +40,19 @@ public class FeedController
 
     /**
      * 给关注者推送动态
+     *
      * @param model
      * @return feeds页面
      */
     @RequestMapping(path = {"/pushfeeds"}, method = {RequestMethod.GET, RequestMethod.POST})
-    private String getPushFeeds(Model model)
-    {
+    private String getPushFeeds(Model model) {
         int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
         List<String> feedIds = jedisAdapter.lrange(RedisKeyUtil.getTimelineKey(localUserId), 0, 10);
         List<Feed> feeds = new ArrayList<Feed>();
 
-        for (String feedId : feedIds)
-        {
+        for (String feedId : feedIds) {
             Feed feed = feedService.getById(Integer.parseInt(feedId));
-            if (feed != null)
-            {
+            if (feed != null) {
                 feeds.add(feed);
             }
         }
@@ -66,17 +63,16 @@ public class FeedController
 
     /**
      * 拉取自己关注的人的动态
+     *
      * @param model
      * @return feeds页面
      */
     @RequestMapping(path = {"/pullfeeds"}, method = {RequestMethod.GET, RequestMethod.POST})
-    private String getPullFeeds(Model model)
-    {
+    private String getPullFeeds(Model model) {
         int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
         List<Integer> followees = new ArrayList<>();
 
-        if (localUserId != 0)
-        {
+        if (localUserId != 0) {
             // 关注的人
             followees = followService.getFollowees(localUserId, EntityType.ENTITY_USER, Integer.MAX_VALUE);
         }

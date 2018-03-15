@@ -5,18 +5,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 
-@SpringBootApplication	//该注解等价于已默认属性使用@Configuration, @EnableAutoConfiguration和@ComponentScan
-public class WendaApplication extends SpringBootServletInitializer
-{
+@SpringBootApplication
+public class WendaApplication extends SpringBootServletInitializer {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder)
-	{
-		return builder.sources(WendaApplication.class);
-	}
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(WendaApplication.class);
+    }
 
-	public static void main(String[] args)
-	{
-		SpringApplication.run(WendaApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WendaApplication.class, args);
+    }
 }

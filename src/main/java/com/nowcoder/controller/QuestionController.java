@@ -22,8 +22,7 @@ import java.util.List;
  * 问题模块
  */
 @Controller
-public class QuestionController
-{
+public class QuestionController {
 
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
@@ -53,14 +52,14 @@ public class QuestionController
 
     /**
      * 提问题
-     * @param title  问题title
-     * @param content  问题描述内容
+     *
+     * @param title   问题title
+     * @param content 问题描述内容
      * @return
      */
     @RequestMapping(value = "/question/add", method = {RequestMethod.POST})
     @ResponseBody
-    public String addQuestion(@RequestParam("title") String title, @RequestParam("content") String content)
-    {
+    public String addQuestion(@RequestParam("title") String title, @RequestParam("content") String content) {
         try {
 
             Question question = new Question();
@@ -68,26 +67,21 @@ public class QuestionController
             question.setTitle(title);
             question.setCreatedDate(new Date());
             question.setCommentCount(0);
-            if (hostHolder.getUser() == null)
-            {
+            if (hostHolder.getUser() == null) {
                 question.setUserId(WendaUtil.ANONYMOUS_USERID);
 //                return WendaUtil.getJSONString(999);
 
-            }
-            else
-            {
+            } else {
                 question.setUserId(hostHolder.getUser().getId());
             }
 
-            if (questionService.addQuestion(question) > 0)
-            {
+            if (questionService.addQuestion(question) > 0) {
                 eventProducer.fireEvent(new EventModel(EventType.ADD_QUESTION).setActorId(question.getUserId()).setEntityId(question.getId()).setExt("title", question.getTitle()).setExt("content", question.getContent()));
                 return WendaUtil.getJSONString(0);
             }
 
-        }catch (Exception e)
-        {
-            logger.error("增加题目失败"+e.getMessage());
+        } catch (Exception e) {
+            logger.error("增加题目失败" + e.getMessage());
         }
 
         return WendaUtil.getJSONString(1, "失败");
@@ -97,33 +91,29 @@ public class QuestionController
 
     /**
      * 问题详情
+     *
      * @param model
      * @param qid
      * @return 返回问题详情页面
      */
     @RequestMapping(value = "/question/{qid}", method = {RequestMethod.GET})
-    public String questionDetail(Model model, @PathVariable("qid") int qid)
-    {
+    public String questionDetail(Model model, @PathVariable("qid") int qid) {
         Question question = questionService.getById(qid);
         model.addAttribute("question", question);
-       // model.addAttribute("user", userService.getUser(question.getUserId()));
+        // model.addAttribute("user", userService.getUser(question.getUserId()));
 
 
         //评论
         List<Comment> commentList = commentService.getCommentsByEntity(qid, EntityType.ENTITY_QUESTION);
         List<ViewObject> comments = new ArrayList<ViewObject>();
 
-        for (Comment comment : commentList)
-        {
+        for (Comment comment : commentList) {
             ViewObject vo = new ViewObject();
             vo.set("comment", comment);
 
-            if (hostHolder.getUser() == null)
-            {
+            if (hostHolder.getUser() == null) {
                 vo.set("liked", 0);
-            }
-            else
-            {
+            } else {
                 vo.set("liked", likeService.getLikeStatus(hostHolder.getUser().getId(), EntityType.ENTITY_COMMENT, comment.getId()));
             }
 
@@ -138,12 +128,10 @@ public class QuestionController
         List<ViewObject> followUsers = new ArrayList<ViewObject>();
         // 获取关注的用户信息
         List<Integer> users = followService.getFollowers(EntityType.ENTITY_QUESTION, qid, 20);
-        for (Integer userId : users)
-        {
+        for (Integer userId : users) {
             ViewObject vo = new ViewObject();
             User u = userService.getUser(userId);
-            if (u == null)
-            {
+            if (u == null) {
                 continue;
             }
             vo.set("name", u.getName());
@@ -153,12 +141,9 @@ public class QuestionController
         }
 
         model.addAttribute("followUsers", followUsers);
-        if (hostHolder.getUser() != null)
-        {
+        if (hostHolder.getUser() != null) {
             model.addAttribute("followed", followService.isFollower(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, qid));
-        }
-        else
-        {
+        } else {
             model.addAttribute("followed", false);
         }
 
