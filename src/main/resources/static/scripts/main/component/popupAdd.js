@@ -118,7 +118,7 @@ var oPopupAdd = new PopupAdd({
             };
         } else {
             oData = oData || {};
-            that.titleIpt.val($.tirm(oData.title));
+            that.titleIpt.val($.trim(oData.title));
             that.contentIpt.val($.trim(oData.content));
         }
     }
