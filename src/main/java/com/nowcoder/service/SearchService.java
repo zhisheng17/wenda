@@ -49,6 +49,10 @@ public class SearchService
         query.setHighlight(true);
         query.setHighlightSimplePre(hlPre);
         query.setHighlightSimplePost(hlPos);
+//        query.setHighlightRequireFieldMatch(true);  //置为true，除非该字段的查询结果不为空才会被高亮。它的默认值是false，意味着它可能匹配某个字段却高亮一个不同的字段
+//        query.set("hl.usePhraseHighlighter", true);   //如果一个查询中含有短语（引号框起来的）那么会保证一定要完全匹配短语的才会被高亮
+//        query.set("hl.highlightMultiTerm", true);     //如果使用通配符和模糊搜索，那么会确保与通配符匹配的term会高亮. 默认为false，同时hl.usePhraseHighlighter要为true。
+        query.set("df", QUESTION_TITLE_FIELD);
         query.set("hl.fl", QUESTION_TITLE_FIELD + "," + QUESTION_CONTENT_FIELD);
 
         QueryResponse response = client.query(query);
