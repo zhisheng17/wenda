@@ -44,7 +44,7 @@ public class FeedController {
      * @param model
      * @return feeds页面
      */
-    @RequestMapping(path = {"/pushfeeds"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(path = {"/feeds/push"}, method = {RequestMethod.GET, RequestMethod.POST})
     private String getPushFeeds(Model model) {
         int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
         List<String> feedIds = jedisAdapter.lrange(RedisKeyUtil.getTimelineKey(localUserId), 0, 10);
@@ -67,7 +67,7 @@ public class FeedController {
      * @param model
      * @return feeds页面
      */
-    @RequestMapping(path = {"/pullfeeds"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(path = {"/feeds/pull"}, method = {RequestMethod.GET, RequestMethod.POST})
     private String getPullFeeds(Model model) {
         int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
         List<Integer> followees = new ArrayList<>();

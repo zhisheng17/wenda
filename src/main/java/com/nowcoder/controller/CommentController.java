@@ -48,7 +48,7 @@ public class CommentController {
      * @param content    评论内容
      * @return 问题详情
      */
-    @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})
+    @RequestMapping(path = {"/comment/add"}, method = {RequestMethod.POST})
     public String addComment(@RequestParam("questionId") int questionId, @RequestParam("content") String content) {
         try {
             Comment comment = new Comment();

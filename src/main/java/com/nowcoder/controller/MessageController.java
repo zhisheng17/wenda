@@ -96,7 +96,7 @@ public class MessageController {
     }
 
 
-    @RequestMapping(path = {"/msg/addMessage"}, method = {RequestMethod.POST})
+    @RequestMapping(path = {"/msg/add"}, method = {RequestMethod.POST})
     @ResponseBody
     public String addMessage(@RequestParam("toName") String toName, @RequestParam("content") String content) {
         try {
