@@ -42,6 +42,9 @@ public class SearchService {
      */
     public List<Question> searchQuestion(String keywords, int offset, int count, String hlPre, String hlPos) throws Exception {
         List<Question> questionList = new ArrayList<>();
+
+        //可参考官网资料：https://lucene.apache.org/solr/guide/6_6/highlighting.html
+
         SolrQuery query = new SolrQuery(keywords);
         query.setRows(count);
         query.setStart(offset);
